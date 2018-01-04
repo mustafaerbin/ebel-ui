@@ -1,0 +1,131 @@
+{
+  "name": "UserModel",
+  "fields": [
+    {
+      "label": "Id",
+      "type": "string",
+      "name": "id",
+      "tooltip": "Id",
+      "visible": false
+    },
+    {
+      "label": "Last Updated",
+      "type": "string",
+      "name": "lastUpdated",
+      "tooltip": "Last Updated",
+      "visible": false
+    },
+    {
+      "label": "Username",
+      "type": "string",
+      "name": "username",
+      "tooltip": "Username",
+      "validations": {
+        "required": {
+          "message": "Bu alan zorunludur"
+        },
+        "minLength": {
+          "args": [
+            5
+          ],
+          "message": "Bu alan 5 karakterden az olamaz"
+        },
+        "maxLength": {
+          "args": [
+            50
+          ],
+          "message": "Bu alan 50 karakterden fazla olamaz"
+        }
+      },
+      "filter": true,
+      "sort": "asc"
+    },
+    {
+      "label": "Name",
+      "type": "string",
+      "name": "name",
+      "tooltip": "Name",
+      "validations": {
+        "required": {
+          "message": "Bu alan zorunludur"
+        }
+      },
+      "filter": true,
+      "sort": "asc"
+    },
+    {
+      "label": "Surname",
+      "type": "string",
+      "name": "surname",
+      "tooltip": "Surname",
+      "validations": {
+        "required": {
+          "message": "Bu alan zorunludur"
+        }
+      },
+      "filter": true,
+      "sort": "asc"
+    },
+    {
+      "label": "Şifre",
+      "type": "password",
+      "name": "password",
+      "tooltip": "Şifre",
+      "validations": {
+        "required": {
+          "message": "Bu alan zorunludur"
+        },
+        "minLength": {
+          "args": [
+            6
+          ],
+          "message": "Bu alan 6 karakterden az olamaz"
+        }
+      }
+    },
+    {
+      "label": "Rol",
+      "type": "select",
+      "name": "roleOid",
+      "tooltip": "Rol",
+      "placeHolder": "<Lütfen Seçiniz>",
+      "validations": {
+        "required": {
+          "message": "Bu alan zorunludur"
+        }
+      },
+      "sort": "",
+      "filter": false
+    },
+    {
+      "label": "Aktif",
+      "type": "check",
+      "valueField": "value",
+      "textField": "text",
+      "item": [
+        {
+          "value": true,
+          "text": "Bu kullanıcı aktif"
+        }
+      ],
+      "name": "active",
+      "tooltip": "Aktif",
+      "sort": "",
+      "filter": true
+    },
+    {
+      "label": "Fail Count",
+      "type": "number",
+      "name": "failCount",
+      "tooltip": "Fail Count",
+      "visible": false
+    },
+    {
+      "label": "version",
+      "type": "number",
+      "name": "version",
+      "tooltip": "version",
+      "visible": false
+    }
+  ]
+}

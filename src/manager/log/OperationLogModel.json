@@ -1,0 +1,75 @@
+{
+  "name": "OperationLogModel",
+  "fields": [
+    {
+      "label": "Id",
+      "type": "string",
+      "name": "id",
+      "tooltip": "Id",
+      "visible": false
+    },
+    {
+      "label": "Operasyon Tipi",
+      "type": "string",
+      "name": "crudType",
+      "tooltip": "crudType"
+    },
+    {
+      "label": "Log Mesajı",
+      "type": "string",
+      "name": "logMessage",
+      "tooltip": "logMessage"
+    },
+    {
+      "label": "Veri",
+      "type": "string",
+      "name": "requestData",
+      "tooltip": "requestData"
+    },
+    {
+      "label": "IP",
+      "type": "string",
+      "name": "requestIP",
+      "tooltip": "requestIP"
+    },
+    {
+      "label": "Görev ID",
+      "type": "string",
+      "name": "taskID",
+      "tooltip": "taskID"
+    },
+    {
+      "label": "Poliçe ID",
+      "type": "string",
+      "name": "policyID",
+      "tooltip": "policyID"
+    },
+    {
+      "label": "Profil ID",
+      "type": "string",
+      "name": "profileID",
+      "tooltip": "profileID"
+    },
+    {
+      "label": "Oluşturma Tarihi",
+      "type": "date",
+      "name": "createDate",
+      "tooltip": "createDate",
+      "visible": false
+    },
+    {
+      "label": "Güncelleme Tarihi",
+      "type": "date",
+      "name": "updateDate",
+      "tooltip": "updateDate",
+      "visible": false
+    },
+    {
+      "label": "Versiyon",
+      "type": "number",
+      "name": "version",
+      "tooltip": "version",
+      "visible": false
+    }
+  ]
+}
