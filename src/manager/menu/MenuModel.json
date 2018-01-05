@@ -53,11 +53,6 @@
       "name": "parentOid",
       "tooltip": "Üst Menü",
       "placeHolder": "<Lütfen Seçiniz>",
-      "validations": {
-        "required": {
-          "message": "Bu alan zorunludur"
-        }
-      },
       "sort": "",
       "filter": true
     },
