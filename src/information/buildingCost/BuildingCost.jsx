@@ -20,59 +20,28 @@ export default class BuildingCost extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tipler: [],
-            displayDialog: false, //tip ekleme popup
-            displayDialogParametre: false, //parametre ekleme popup
-            secilenTip: {}
+            listeBinaMaliyetleri: [],
+            genelKodlar: {
+                // id: null,
+                // yapiTür: null,
+                // yapiFaliyet: null,
+                // yil: null,
+                // basit: null,
+                // lüks: null,
+                // birinciSinif: null,
+                // ikinciSinif: null,
+                // ucuncuSinif: null
+            },
+            binaMaliyeti: {},
+            showGrid: false
         };
-        this.__onFilter = this.__onFilter.bind(this);
-        this.__yeniTipButon = this.__yeniTipButon.bind(this);
-        this.__duzenleButton = this.__duzenleButton.bind(this);
-        this.__kaydetTip = this.__kaydetTip.bind(this);
-        this.__actionTemplate = this.__actionTemplate.bind(this);
-        this.__kaydetParametre = this.__kaydetParametre.bind(this);
-    }
 
-    // Kayıt'ın aktif pasif durum kolonu
-    __statusRow(column) {
-        if (column.aktif)
-            return <td><FaIcon code={"fa-check-square-o "}/></td>;
-        else
-            return <td><FaIcon code={"fa-square-o "}/></td>;
+        this.__ara = this.__ara.bind(this);
+        this.__temizle = this.__temizle.bind(this);
     }
-
 
     render() {
-        let header =
-            <div style={{'textAlign': 'left'}}>
-                <i className="fa fa-search" style={{margin: '4px 4px 0 0'}}></i>
-                <InputText type="search" onInput={(e) => this.setState({globalFilter: e.target.value})}
-                           placeholder="Genel Arama" size="50"/>
-                <Button icon="fa-plus" label="Yeni Tip" style={{float: 'right'}}
-                        onClick={this.__yeniTipButon} className="ui-button-success"/>
-            </div>;
 
-        let dialogFooter =
-            <div className="ui-dialog-buttonpane ui-helper-clearfix">
-                <Button label="Kaydet" icon="fa-check" onClick={this.__kaydetTip}
-                        className="ui-button-success"/>
-                <Button icon="fa-close" label="İptal"
-                        onClick={() => {
-                            this.setState({displayDialog: false, loading: false});
-                        }}
-                />
-            </div>;
-
-        let dialogParametreFooter =
-            <div className="ui-dialog-buttonpane ui-helper-clearfix">
-                <Button label="Kaydet" icon="fa-check" onClick={this.__kaydetParametre}
-                        className="ui-button-success"/>
-                <Button icon="fa-close" label="İptal"
-                        onClick={() => {
-                            this.setState({displayDialogParametre: false, loading: false});
-                        }}
-                />
-            </div>;
         return (
             <Card>
                 <BreadCrumb model={[
@@ -80,287 +49,142 @@ export default class BuildingCost extends Component {
                     {label: 'Bina Maliyetleri'}
                 ]}/>
                 <div>
-                    <div className="content-section implementation">
-                        {' '}
-                        {/*{this.state.tipler ? this.state.tipler.length : 0} kayıt bulundu*/}
-                        <DataTable value={this.state.tipler}
-                                   paginator={true} rows={10} header={header}
-                                   globalFilter={this.state.globalFilter}
-                                   filters={this.state.filters}
-                                   selectionMode="single"
-                                   selection={this.state.secilenTip}
-                            // onSelectionChange={(e) => {
-                            //     this.setState({selectedCustomer: e.data, policyAddButtonDisable: false});
-                            // }}
-                                   onSelectionChange={(e) => {
-                                       this.__onSelectionChange(e.data)
-                                   }}
-                                   onFilter={this.__onFilter}
-                        >
-                            <Column field="isim" header="İsim" filter={true}/>
-                            <Column field="kod" header="Kodu" filter={true}/>
-                            <Column field="aktif" header="Durum" body={this.__statusRow}
-                                    style={{textAlign: 'center', width: '5em'}}/>
-                            <Column header="İşlemler" body={this.__actionTemplate}
-                                    style={{textAlign: 'center', width: '7em'}}>
-                            </Column>
-                        </DataTable>
+                    <br/>
+                    <div>
+                        <Dropdown
+                            value={this.state.binaMaliyeti.yapiFaliyet}
+                            options={this.state.listeYapiFaliyetleri}
+                            onChange={(e) => {
+                                this.__handleChangeDropDown("yapiFaliyet", e)
+                            }}
+                            style={{width: 'ui-grid-col-8'}}
+                            placeholder="Yapı Faliyeti Seçiniz"
+                            editable={true}
+                            filter={true}
+                            filterPlaceholder="Faliyet Ara"
+                            filterBy="label,value"
+                        />
+                        {'   '}
+                        <Dropdown
+                            value={this.state.binaMaliyeti.yil}
+                            options={this.state.listeYillar}
+                            onChange={(e) => {
+                                this.__handleChangeDropDown("yil", e)
+                            }}
+                            style={{width: 'ui-grid-col-8'}}
+                            placeholder="Yıl Seçiniz"
+                            editable={true}
+                            filter={true}
+                            filterPlaceholder="Yıl Ara"
+                            filterBy="label,value"
+                        />
+                        {'   '}
+                        <Button icon="fa-search" label="Ara"
+                                onClick={this.__ara} className="ui-button-primary"/>
                     </div>
 
-                    {/*//kaydet ve güncelle button*/}
-                    <div className="content-section implementation">
-
-                        <Modal show={this.state.displayDialog}
-                               onHide={() => {
-                                   this.setState({displayDialog: false})
-                               }}>
-                            <Modal.Header>
-                                <Modal.Title>{this.state.headerDialog}</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                {this.state.tip && <div className="ui-grid ui-grid-responsive ui-fluid">
-
-                                    <div className="ui-grid-row">
-                                        <div className="ui-grid-col-4" style={{padding: '4px 10px'}}><label
-                                            htmlFor="label">İsim</label></div>
-                                        <div className="ui-grid-col-8" style={{padding: '4px 10px'}}>
-                                            <InputText id="isim" onChange={(e) => {
-                                                this.__updateProperty('type', 'isim', e.target.value)
-                                            }} value={this.state.tip.isim}/>
-                                        </div>
-                                    </div>
-
-                                    <div className="ui-grid-row">
-                                        <div className="ui-grid-col-4" style={{padding: '4px 10px'}}><label
-                                            htmlFor="label">Kod</label></div>
-                                        <div className="ui-grid-col-8" style={{padding: '4px 10px'}}>
-                                            <InputText id="kod" onChange={(e) => {
-                                                this.__updateProperty('type', 'kod', e.target.value)
-                                            }} value={this.state.tip.kod}/>
-                                        </div>
-                                    </div>
-
-                                    <div className="ui-grid-row">
-                                        <div className="ui-grid-col-4" style={{padding: '4px 10px'}}><label
-                                            htmlFor="aktif">Durum</label></div>
-                                        <div className="ui-grid-col-8" style={{padding: '4px 10px'}}>
-                                            <InputSwitch id="aktif"
-                                                         onLabel="Aktif" offLabel="Pasif"
-                                                         checked={this.state.tip.aktif}
-                                                         onChange={(e) => {
-                                                             this.__updateProperty('type', 'aktif', e.value)
-                                                         }}/>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                }
-                            </Modal.Body>
-                            <Modal.Footer>
-                                {dialogFooter}
-                            </Modal.Footer>
-                        </Modal>
-                    </div>
-
-
-                    {/*parametre ekle popup*/}
-                    <div className="content-section implementation">
-                        <Modal show={this.state.displayDialogParametre}
-                               onHide={() => {
-                                   this.setState({displayDialogParametre: false})
-                               }}>
-                            <Modal.Header>
-                                <Modal.Title>{this.state.headerDialog}</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                {this.state.genelKodlar && <div className="ui-grid ui-grid-responsive ui-fluid">
-
-                                    <div className="ui-grid-row">
-                                        <div className="ui-grid-col-4" style={{padding: '4px 10px'}}><label
-                                            htmlFor="label">İsim</label></div>
-                                        <div className="ui-grid-col-8" style={{padding: '4px 10px'}}>
-                                            <InputText id="isim" onChange={(e) => {
-                                                this.__updateProperty('genelKodlar', 'isim', e.target.value)
-                                            }} value={this.state.genelKodlar.isim}/>
-                                        </div>
-                                    </div>
-
-                                    <div className="ui-grid-row">
-                                        <div className="ui-grid-col-4" style={{padding: '4px 10px'}}><label
-                                            htmlFor="label">Kod</label></div>
-                                        <div className="ui-grid-col-8" style={{padding: '4px 10px'}}>
-                                            <InputText id="kod" onChange={(e) => {
-                                                this.__updateProperty('genelKodlar', 'kod', e.target.value)
-                                            }} value={this.state.genelKodlar.kod}/>
-                                        </div>
-                                    </div>
-
-                                    <div className="ui-grid-row">
-                                        <div className="ui-grid-col-4" style={{padding: '4px 10px'}}><label
-                                            htmlFor="aktif">Durum</label></div>
-                                        <div className="ui-grid-col-8" style={{padding: '4px 10px'}}>
-                                            <InputSwitch id="aktif"
-                                                         onLabel="Aktif" offLabel="Pasif"
-                                                         checked={this.state.genelKodlar.aktif}
-                                                         onChange={(e) => {
-                                                             this.__updateProperty('genelKodlar', 'aktif', e.value)
-                                                         }}/>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                }
-                            </Modal.Body>
-                            <Modal.Footer>
-                                {dialogParametreFooter}
-                            </Modal.Footer>
-                        </Modal>
-                    </div>
-
+                    <br/>
+                    {
+                        this.__grid()
+                    }
                 </div>
             </Card>
         )
     }
 
-    __updateProperty(type, property, value) {
-        switch (type) {
-            case "type":
-                let tip = this.state.tip;
-                tip[property] = value;
-                this.setState({tip: tip});
-                break;
-            case "genelKodlar":
-                let genelKodlar = this.state.genelKodlar;
-                genelKodlar[property] = value;
-                this.setState({genelKodlar: genelKodlar});
-                break;
+    __grid() {
+
+        let showGrid = this.state.showGrid;
+        if (showGrid) {
+            return (
+                <div className="content-section implementation">
+                    <DataTable value={this.state.listeBinaMaliyetleri}
+                               paginator={true} rows={10}
+                               globalFilter={this.state.globalFilter}
+                               selectionMode="single"
+                    >
+                        <Column field="yapiTür.label" header="Yapı Türü"/>
+                        <Column field="lüks" header="Lüks"/>
+                        <Column field="birinciSinif" header="1.Sınıf"/>
+                        <Column field="ikinciSinif" header="2.Sınıf"/>
+                        <Column field="ucuncuSinif" header="3.Sınıf"/>
+                        <Column field="basit" header="Basit"/>
+                    </DataTable>
+                </div>
+            );
         }
-
     }
 
-    // Giridin üstünde ki yeni tip ekle Butonu
-    __yeniTipButon() {
-        this.yeniKayit = true;
-        this.setState({
-            tip: {
-                isim: '',
-                kod: '',
-                aktif: true
-            },
-            displayDialog: true,
-            headerDialog: "Yeni Tip Kaydet",
-            loading: true
-        });
-    }
+    __ara() {
+        let binaMaliyeti = this.state.binaMaliyeti;
 
-    // Giridin sonunda ki parametre ekle Butonu
-    __parametreEkleButton(rowData, column) {
-        let selected = column.rowData;
-        this.setState({
-            genelKodlar: {
-                tip: selected,
-                isim: "",
-                kod: "",
-                anaKod: null,
-                aktif: true
-            },
-            displayDialogParametre: true,
-            headerDialog: "Parametre Ekle",
-            loading: true
-        });
-    }
-
-    __duzenleButton(rowData, column) {
-        this.yeniKayit = false;
-        let secilenTip = column.rowData;
-        this.setState({
-            displayDialog: true,
-            tip: secilenTip,
-            headerDialog: "Tip Güncelle"
-        });
-    }
-
-    // Girdin sonunda ki işlemler colonu
-    __actionTemplate(rowData, column) {
-        return (
-            <div className="ui-helper-clearfix" style={{width: '100%'}}>
-
-                <Tooltip for="#parametreButton" title="Parametre Ekle" tooltipPosition="top"/>
-                <Button id="parametreButton" icon="fa-plus" type="button" className="ui-button-success"
-                        onClick={(rowData) => {
-                            this.__parametreEkleButton(rowData, column)
-                        }}/>
-
-                <Tooltip for="#editButton" title="Güncelle" tooltipPosition="top"/>
-                <Button id="editButton" type="button" icon="fa-edit" className="ui-button-warning"
-                        onClick={(rowData) => {
-                            this.__duzenleButton(rowData, column)
-                        }}>
-                </Button>
-            </div>
-        );
-    }
-
-    __onFilter(e) {
-        this.setState({filters: e.filters});
-    }
-
-    __onSelectionChange(date) {
-        this.setState({selectedCompanyPolicyType: date});
-    }
-
-    __kaydetTip() {
-        let type = "";
-        if (this.yeniKayit) {
-            type = "POST";
-        } else {
-            type = "PUT";
-        }
-        this.request = new AjaxRequest({
-            url: "type",
-            type: type
-        });
-        this.request.call(this.state.tip, undefined, function (response) {
-            if (response != null) {
-                Toast.success("Kayıt Başarılı");
-                this.setState({tip: null, displayDialog: false, loading: false});
-            } else {
-                Toast.error("Kayıt Başarısız")
-            }
-            this.__listeTipler();
-            this.forceUpdate();
-        }.bind(this));
-    }
-
-    __kaydetParametre() {
-
-        let genelKodlar = this.state.genelKodlar;
-
-        this.request = new AjaxRequest({
-            url: "generic-codes",
+        let request = new AjaxRequest({
+            url: "building-cost/find-building-cost",
             type: "POST"
         });
-        this.request.call(genelKodlar, undefined, function (response) {
-            if (response != null) {
-                Toast.success("Kayıt Başarılı");
-                this.setState({genelKodlar: null, displayDialogParametre: false, loading: false});
-            } else {
-                Toast.error("Kayıt Başarısız")
-            }
-            this.__listeTipler();
-            this.forceUpdate();
-        }.bind(this));
+
+        request.call(binaMaliyeti, undefined,
+            (response) => {
+                this.setState({listeBinaMaliyetleri: response, showGrid: true});
+            });
     }
 
-    __listeTipler() {
+    __handleChangeDropDown(property, e) {
+        let value = e.value;
+        let binaMaliyeti = this.state.binaMaliyeti;
+        switch (property) {
+            case "yapiFaliyet":
+                const selected = this.state.listeYapiFaliyetleri.find(o => o.value === value);
+                binaMaliyeti[property] = selected;
+                break;
+            case "yil":
+                const yil = this.state.listeYillar.find(o => o.value === value);
+                binaMaliyeti[property] = yil.label;
+                break;
+        }
+        this.setState({binaMaliyeti: binaMaliyeti});
+    }
+
+    __listeBinaMaliyetleri() {
+
         let request = new AjaxRequest({
-            url: "type",
+            url: "building-cost",
             type: "GET"
         });
 
         request.call(undefined, undefined, function (response) {
             if (response != null) {
-                this.setState({tipler: response});
+                this.setState({listeBinaMaliyetleri: response});
+            }
+            this.forceUpdate();
+        }.bind(this));
+    }
+
+    __listeYapiFaliyetleri() {
+
+        let request = new AjaxRequest({
+            url: "generic-codes/type-code/" + "YAPI_FALIYET",
+            type: "GET"
+        });
+
+        request.call(undefined, undefined, function (response) {
+            if (response != null) {
+                this.setState({listeYapiFaliyetleri: response});
+            }
+            this.forceUpdate();
+        }.bind(this));
+    }
+
+    __listeYillar() {
+
+        let request = new AjaxRequest({
+            url: "generic-codes/type-code/" + "YIL",
+            type: "GET"
+        });
+
+        request.call(undefined, undefined, function (response) {
+            if (response != null) {
+                this.setState({listeYillar: response});
             }
             this.forceUpdate();
         }.bind(this));
@@ -368,7 +192,9 @@ export default class BuildingCost extends Component {
 
 
     componentDidMount() {
-        this.__listeTipler();
+        this.__listeBinaMaliyetleri();
+        this.__listeYapiFaliyetleri();
+        this.__listeYillar();
     }
 
 }
