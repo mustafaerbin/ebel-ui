@@ -94,8 +94,7 @@ export default class BuildingCost extends Component {
 
     __grid() {
 
-        let showGrid = this.state.showGrid;
-        if (showGrid) {
+        if (this.state.showGrid) {
             return (
                 <div className="content-section implementation">
                     <DataTable value={this.state.listeBinaMaliyetleri}
