@@ -333,7 +333,7 @@ export default class Type extends Component {
         let genelKodlar = this.state.genelKodlar;
 
         this.request = new AjaxRequest({
-            url: "generic-codes",
+            url: "parameters",
             type: "POST"
         });
         this.request.call(genelKodlar, undefined, function (response) {

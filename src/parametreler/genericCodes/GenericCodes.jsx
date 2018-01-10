@@ -351,7 +351,7 @@ export default class GenericCodes extends Component {
 
     __listeTipler() {
         let request = new AjaxRequest({
-            url: "generic-codes",
+            url: "parameters",
             type: "GET"
         });
 

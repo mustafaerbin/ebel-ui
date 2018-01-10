@@ -37,7 +37,6 @@ export default class BuildingCost extends Component {
         };
 
         this.__ara = this.__ara.bind(this);
-        this.__temizle = this.__temizle.bind(this);
     }
 
     render() {
@@ -162,7 +161,7 @@ export default class BuildingCost extends Component {
     __listeYapiFaliyetleri() {
 
         let request = new AjaxRequest({
-            url: "generic-codes/type-code/" + "YAPI_FALIYET",
+            url: "parameters/type-code/" + "YAPI_FALIYET",
             type: "GET"
         });
 
@@ -177,7 +176,7 @@ export default class BuildingCost extends Component {
     __listeYillar() {
 
         let request = new AjaxRequest({
-            url: "generic-codes/type-code/" + "YIL",
+            url: "parameters/type-code/" + "YIL",
             type: "GET"
         });
 
