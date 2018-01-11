@@ -93,7 +93,7 @@ export default class GenericCodes extends Component {
                                    }}
                                    onFilter={this.__onFilter}
                         >
-                            <Column field="isim" header="İsim" filter={true}/>
+                            <Column field="label" header="İsim" filter={true}/>
                             <Column field="kod" header="Kodu" filter={true}/>
                             <Column field="tip.isim" header="Tipi" filter={true}/>
                             <Column field="aktif" header="Durum" body={this.__statusRow}

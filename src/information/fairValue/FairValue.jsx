@@ -14,14 +14,14 @@ import {Tooltip} from 'primereact/components/tooltip/Tooltip';
 import {InputSwitch} from 'primereact/components/inputswitch/InputSwitch';
 import {BreadCrumb} from 'primereact/components/breadcrumb/BreadCrumb';
 
-//bina maliyeti
-export default class BuildingCost extends Component {
+// rayic degeri
+export default class FairValue extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            listeBinaMaliyetleri: [],
-            binaMaliyeti: {},
+            listeRayicDegerleri: [],
+            rayicDegeri: {},
             showGrid: false
         };
 
@@ -34,27 +34,43 @@ export default class BuildingCost extends Component {
             <Card>
                 <BreadCrumb model={[
                     {label: 'Bilgi Edinme'},
-                    {label: 'Bina Maliyetleri'}
+                    {label: 'Rayiç Değerleri'}
                 ]}/>
                 <div>
                     <br/>
                     <div>
+
                         <Dropdown
-                            value={this.state.binaMaliyeti.yapiFaliyet}
-                            options={this.state.listeYapiFaliyetleri}
+                            value={this.state.rayicDegeri.mahalle}
+                            options={this.state.listeMahalleler}
                             onChange={(e) => {
-                                this.__handleChangeDropDown("yapiFaliyet", e)
+                                this.__handleChangeDropDown("mahalle", e)
                             }}
                             style={{width: 'ui-grid-col-8'}}
-                            placeholder="Yapı Faliyeti Seçiniz"
+                            placeholder="Mahalle Seçiniz"
                             editable={true}
                             filter={true}
-                            filterPlaceholder="Faliyet Ara"
+                            filterPlaceholder="Mahalle Ara"
+                            filterBy="label,value"
+                        />
+                        {'   '}
+
+                        <Dropdown
+                            value={this.state.rayicDegeri.sokak}
+                            options={this.state.listeSokaklar}
+                            onChange={(e) => {
+                                this.__handleChangeDropDown("sokak", e)
+                            }}
+                            style={{width: 'ui-grid-col-8'}}
+                            placeholder="Sokak Seçiniz"
+                            editable={true}
+                            filter={true}
+                            filterPlaceholder="Sokak Ara"
                             filterBy="label,value"
                         />
                         {'   '}
                         <Dropdown
-                            value={this.state.binaMaliyeti.yil}
+                            value={this.state.rayicDegeri.yil}
                             options={this.state.listeYillar}
                             onChange={(e) => {
                                 this.__handleChangeDropDown("yil", e)
@@ -85,17 +101,13 @@ export default class BuildingCost extends Component {
         if (this.state.showGrid) {
             return (
                 <div className="content-section implementation">
-                    <DataTable value={this.state.listeBinaMaliyetleri}
+                    <DataTable value={this.state.listeRayicDegerleri}
                                paginator={true} rows={10}
                                globalFilter={this.state.globalFilter}
                                selectionMode="single"
                     >
-                        <Column field="yapiTür.label" header="Yapı Türü"/>
-                        <Column field="lüks" header="Lüks"/>
-                        <Column field="birinciSinif" header="1.Sınıf"/>
-                        <Column field="ikinciSinif" header="2.Sınıf"/>
-                        <Column field="ucuncuSinif" header="3.Sınıf"/>
-                        <Column field="basit" header="Basit"/>
+                        <Column field="sokak.label" header="Bölge"/>
+                        <Column field="deger" header="Rayiç Bedeli"/>
                     </DataTable>
                 </div>
             );
@@ -103,63 +115,49 @@ export default class BuildingCost extends Component {
     }
 
     __ara() {
-        let binaMaliyeti = this.state.binaMaliyeti;
+        let rayicDegeri = this.state.rayicDegeri;
 
         let request = new AjaxRequest({
-            url: "building-cost/find-building-cost",
+            url: "fair-value/find-fair-value",
             type: "POST"
         });
 
-        request.call(binaMaliyeti, undefined,
+        request.call(rayicDegeri, undefined,
             (response) => {
-                this.setState({listeBinaMaliyetleri: response, showGrid: true});
+                this.setState({listeRayicDegerleri: response, showGrid: true});
             });
     }
 
     __handleChangeDropDown(property, e) {
         let value = e.value;
-        let binaMaliyeti = this.state.binaMaliyeti;
+        let rayicDegeri = this.state.rayicDegeri;
         switch (property) {
-            case "yapiFaliyet":
-                const selected = this.state.listeYapiFaliyetleri.find(o => o.value === value);
-                binaMaliyeti[property] = selected;
+            case "mahalle":
+                const selected = this.state.listeMahalleler.find(o => o.value === value);
+                rayicDegeri[property] = selected;
+                this.__listeSokaklar(selected.value);
+                break;
+            case "sokak":
+                const sokak = this.state.listeSokaklar.find(o => o.value === value);
+                rayicDegeri[property] = sokak;
                 break;
             case "yil":
                 const yil = this.state.listeYillar.find(o => o.value === value);
-                binaMaliyeti[property] = yil.label;
+                rayicDegeri[property] = yil.label;
                 break;
         }
-        this.setState({binaMaliyeti: binaMaliyeti});
+        this.setState({rayicDegeri: rayicDegeri});
     }
 
-    __listeBinaMaliyetleri() {
-
+    __listeSokaklar(mahalleId) {
         let request = new AjaxRequest({
-            url: "building-cost",
+            url: "street/listeSokakMahalleId/" + mahalleId,
             type: "GET"
         });
-
-        request.call(undefined, undefined, function (response) {
-            if (response != null) {
-                this.setState({listeBinaMaliyetleri: response});
-            }
-            this.forceUpdate();
-        }.bind(this));
-    }
-
-    __listeYapiFaliyetleri() {
-
-        let request = new AjaxRequest({
-            url: "parameters/type-code/" + "YAPI_FALIYET",
-            type: "GET"
-        });
-
-        request.call(undefined, undefined, function (response) {
-            if (response != null) {
-                this.setState({listeYapiFaliyetleri: response});
-            }
-            this.forceUpdate();
-        }.bind(this));
+        request.call(undefined, undefined,
+            (response) => {
+                this.setState({listeSokaklar: response});
+            });
     }
 
     __listeYillar() {
@@ -177,10 +175,25 @@ export default class BuildingCost extends Component {
         }.bind(this));
     }
 
+    __listeMahalleler() {
+
+        let request = new AjaxRequest({
+            url: "neighborhood",
+            type: "GET"
+        });
+
+        request.call(undefined, undefined, function (response) {
+            if (response != null) {
+                this.setState({listeMahalleler: response});
+            }
+            this.forceUpdate();
+        }.bind(this));
+
+    }
+
 
     componentDidMount() {
-        this.__listeBinaMaliyetleri();
-        this.__listeYapiFaliyetleri();
+        this.__listeMahalleler();
         this.__listeYillar();
     }
 
