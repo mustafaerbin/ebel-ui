@@ -21,17 +21,6 @@ export default class BuildingCost extends Component {
         super(props);
         this.state = {
             listeBinaMaliyetleri: [],
-            genelKodlar: {
-                // id: null,
-                // yapiTür: null,
-                // yapiFaliyet: null,
-                // yil: null,
-                // basit: null,
-                // lüks: null,
-                // birinciSinif: null,
-                // ikinciSinif: null,
-                // ucuncuSinif: null
-            },
             binaMaliyeti: {},
             showGrid: false
         };
