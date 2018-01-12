@@ -13,6 +13,7 @@ import Toast from "robe-react-ui/lib/toast/Toast";
 import {Tooltip} from 'primereact/components/tooltip/Tooltip';
 import {InputSwitch} from 'primereact/components/inputswitch/InputSwitch';
 import {BreadCrumb} from 'primereact/components/breadcrumb/BreadCrumb';
+import Enums from "../../entity/Enums";
 
 // rayic degeri
 export default class FairValue extends Component {
@@ -163,7 +164,7 @@ export default class FairValue extends Component {
     __listeYillar() {
 
         let request = new AjaxRequest({
-            url: "parameters/type-code/" + "YIL",
+            url: "parameters/type-code/" + Enums.TIP.YIL,
             type: "GET"
         });
 

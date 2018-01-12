@@ -13,6 +13,7 @@ import Toast from "robe-react-ui/lib/toast/Toast";
 import {Tooltip} from 'primereact/components/tooltip/Tooltip';
 import {InputSwitch} from 'primereact/components/inputswitch/InputSwitch';
 import {BreadCrumb} from 'primereact/components/breadcrumb/BreadCrumb';
+import Enums from "../../entity/Enums";
 
 //bina maliyeti
 export default class BuildingCost extends Component {
@@ -150,7 +151,7 @@ export default class BuildingCost extends Component {
     __listeYapiFaliyetleri() {
 
         let request = new AjaxRequest({
-            url: "parameters/type-code/" + "YAPI_FALIYET",
+            url: "parameters/type-code/" + Enums.TIP.YAPI_FALIYET,
             type: "GET"
         });
 
@@ -165,7 +166,7 @@ export default class BuildingCost extends Component {
     __listeYillar() {
 
         let request = new AjaxRequest({
-            url: "parameters/type-code/" + "YIL",
+            url: "parameters/type-code/" + Enums.TIP.YIL,
             type: "GET"
         });
 

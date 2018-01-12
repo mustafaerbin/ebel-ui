@@ -71,12 +71,6 @@ class Login extends ShallowComponent {
                         <br/>
                         <br/>
                         <br/>
-                        {/*<Col>*/}
-                            {/*<Alert bsStyle="info">*/}
-                                {/*<p>Username :<b> admin</b></p>*/}
-                                {/*<p>Password :<b> 123123</b></p>*/}
-                            {/*</Alert>*/}
-                        {/*</Col>*/}
                     </Form>
                 </Card>
             </div>

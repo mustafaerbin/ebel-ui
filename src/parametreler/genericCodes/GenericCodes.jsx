@@ -256,7 +256,7 @@ export default class GenericCodes extends Component {
         this.setState({
             genelKodlar: {
                 tip: selected,
-                isim: "",
+                label: "",
                 kod: "",
                 anaKod: null,
                 aktif: true

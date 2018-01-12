@@ -176,8 +176,8 @@ export default class Type extends Component {
                                             htmlFor="label">İsim</label></div>
                                         <div className="ui-grid-col-8" style={{padding: '4px 10px'}}>
                                             <InputText id="isim" onChange={(e) => {
-                                                this.__updateProperty('genelKodlar', 'isim', e.target.value)
-                                            }} value={this.state.genelKodlar.isim}/>
+                                                this.__updateProperty('genelKodlar', 'label', e.target.value)
+                                            }} value={this.state.genelKodlar.label}/>
                                         </div>
                                     </div>
 
@@ -255,7 +255,7 @@ export default class Type extends Component {
         this.setState({
             genelKodlar: {
                 tip: selected,
-                isim: "",
+                label: "",
                 kod: "",
                 anaKod: null,
                 aktif: true
