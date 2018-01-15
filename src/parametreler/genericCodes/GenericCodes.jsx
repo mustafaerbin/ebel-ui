@@ -49,8 +49,7 @@ export default class GenericCodes extends Component {
                 <i className="fa fa-search" style={{margin: '4px 4px 0 0'}}></i>
                 <InputText type="search" onInput={(e) => this.setState({globalFilter: e.target.value})}
                            placeholder="Genel Arama" size="50"/>
-                <Button icon="fa-plus" label="Yeni Tip" style={{float: 'right'}}
-                        onClick={this.__yeniTipButon} className="ui-button-success"/>
+
             </div>;
 
         let dialogFooter =
@@ -282,18 +281,12 @@ export default class GenericCodes extends Component {
         return (
             <div className="ui-helper-clearfix" style={{width: '100%'}}>
 
-                <Tooltip for="#parametreButton" title="Parametre Ekle" tooltipPosition="top"/>
-                <Button id="parametreButton" icon="fa-plus" type="button" className="ui-button-success"
-                        onClick={(rowData) => {
-                            this.__parametreEkleButton(rowData, column)
-                        }}/>
-
-                <Tooltip for="#editButton" title="Güncelle" tooltipPosition="top"/>
-                <Button id="editButton" type="button" icon="fa-edit" className="ui-button-warning"
-                        onClick={(rowData) => {
-                            this.__duzenleButton(rowData, column)
-                        }}>
-                </Button>
+                {/*<Tooltip for="#editButton" title="Güncelle" tooltipPosition="top"/>*/}
+                {/*<Button id="editButton" type="button" icon="fa-edit" className="ui-button-warning"*/}
+                        {/*onClick={(rowData) => {*/}
+                            {/*this.__duzenleButton(rowData, column)*/}
+                        {/*}}>*/}
+                {/*</Button>*/}
             </div>
         );
     }
