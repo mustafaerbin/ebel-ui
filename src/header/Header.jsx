@@ -57,7 +57,7 @@ export default class Header extends ShallowComponent {
                                circle
                                width="40"/>
                         <Link to={window.applicationRootPath}>
-                            <Col style={{display: this.props.matches ? "none" : "inherit"}}>Danışmend E-Belediye Sistemi</Col>
+                            <Col style={{display: this.props.matches ? "none" : "inherit"}}>E_HİZMET KAPISI</Col>
                         </Link>
                         <Link to={window.applicationRootPath}>
                             <Col style={{display: this.props.matches ? "inherit" : "none"}}>E_HİZMET KAPISI</Col>
