@@ -11,16 +11,16 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "classnames": "^2.2.5",
     "crypto-js": "^3.1.9-1",
+    "font-awesome": "^4.7.0",
     "primereact": "^1.0.1",
+    "prop-types": "^15.5.10",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-router": "3.0.0",
-    "robe-react-commons": "^1.0.85",
-    "robe-react-ui": "^1.1.32",
-    "font-awesome": "^4.7.0",
-    "prop-types": "^15.5.10",
-    "classnames": "^2.2.5"
+    "robe-react-commons": "git+https://readonly.user:9q9UHNLy@dev.mebitech.com/stash/scm/rru/robe-react-commons.git",
+    "robe-react-ui": "git+https://readonly.user:9q9UHNLy@dev.mebitech.com/stash/scm/rru/robe-reactstrap.git"
   },
   "devDependencies": {
     "app-root-path": "^2.0.1",

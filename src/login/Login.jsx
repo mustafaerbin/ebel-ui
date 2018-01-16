@@ -28,52 +28,51 @@ class Login extends ShallowComponent {
     render() {
         return (
             <div className="center-block"
-                 style={{maxWidth: 800, margin:"30px auto"}}>
-                <Col>
-                    <Card style={{marginTop: 0}}>
-                        <Form>
-                            <Row style={{textAlign: "center", marginBottom: "30px"}}>
-                                <Image src="./logo.png" circle width="150"/>
-                            </Row>
-                            <Col>
-                                <TextInput
-                                    ref="username"
-                                    type="email"
-                                    name="username"
-                                    placeholder="Username"
-                                    value={this.state.username}
-                                    onChange={this.__handleChange}
-                                    inputGroupLeft={<InputGroup.Addon><FaIcon code="fa-user"/></InputGroup.Addon>}
-                                    validationDisplay="overlay"
-                                    onKeyPress={this.__onKeyPress}
-                                />
-                            </Col>
-                            <Col>
-                                <PasswordInput
-                                    ref="password"
-                                    name="password"
-                                    className="form-control"
-                                    value={this.state.password}
-                                    onChange={this.__handleChange}
-                                    inputGroupLeft={<InputGroup.Addon><FaIcon code="fa-lock"/></InputGroup.Addon>}
-                                    placeholder="Password"
-                                    onKeyPress={this.__onKeyPress}
-                                />
-                            </Col>
-                            <Col>
-                                <Button
-                                    className="btn btn-primary btn-login btn-block"
-                                    ref="submitBtn"
-                                    onClick={this.__handleSubmit}>
-                                    Login
-                                </Button>
-                            </Col>
-                            <br/>
-                            <br/>
-                            <br/>
-                        </Form>
-                    </Card>
-                </Col>
+                 style={{maxWidth: 300,margin:"30px auto"}}>
+                <Card style={{marginTop: 0}}>
+                    <Form>
+                        <Row style={{textAlign: "center", marginBottom: "30px"}}>
+                            <Image src="./logo.png" circle width="150"/>
+                        </Row>
+                        <Col>
+
+                            <TextInput
+                                ref="username"
+                                type="email"
+                                name="username"
+                                placeholder="Username"
+                                value={this.state.username}
+                                onChange={this.__handleChange}
+                                inputGroupLeft={<InputGroup.Addon><FaIcon code="fa-user"/></InputGroup.Addon>}
+                                validationDisplay="overlay"
+                                onKeyPress={this.__onKeyPress}
+                            />
+                        </Col>
+                        <Col>
+                            <PasswordInput
+                                ref="password"
+                                name="password"
+                                className="form-control"
+                                value={this.state.password}
+                                onChange={this.__handleChange}
+                                inputGroupLeft={<InputGroup.Addon><FaIcon code="fa-lock"/></InputGroup.Addon>}
+                                placeholder="Password"
+                                onKeyPress={this.__onKeyPress}
+                            />
+                        </Col>
+                        <Col>
+                            <Button
+                                className="btn btn-primary btn-login btn-block"
+                                ref="submitBtn"
+                                onClick={this.__handleSubmit}>
+                                Login
+                            </Button>
+                        </Col>
+                        <br/>
+                        <br/>
+                        <br/>
+                    </Form>
+                </Card>
             </div>
         );
     }
