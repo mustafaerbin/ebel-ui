@@ -7,7 +7,7 @@ import Progress from "robe-react-ui/lib/progress/Progress";
 import cookie from "react-cookie";
 import ajax from "robe-ajax";
 import "primereact/resources/primereact.min.css";
-import "primereact/resources/themes/cupertino/theme.css";
+import "primereact/resources/themes/home/theme.css";
 import "font-awesome/css/font-awesome.css";
 
 export default class Switch extends ShallowComponent {

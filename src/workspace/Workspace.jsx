@@ -14,22 +14,36 @@ export default class Workspace extends ShallowComponent {
     constructor(props) {
         super(props);
         this.state = {
-            toggled: false
+            toggled: false,
+            tema: {
+                ustMenuRenk: "#153647",
+                menuArkaplanRenk: "#1f4152",
+                ustMenuYaziRenk: "#fff"
+            }
         };
     }
 
 
     render() {
         let toggled = this.state.toggled == false ? 0 : 290;
+        let contentWidth = "calc(100% - " + toggled + "px)";
         return (
             <div>
                 <Header
                     matches={this.state.matches}
                     toggled={this.state.toggled}
-                    onToggle={this.__changeMenu}/>
+                    onToggle={this.__changeMenu}
+                    headerColor={this.state.tema.ustMenuRenk}
+                    ustMenuYazi={this.state.tema.ustMenuYaziRenk}
+                />
                 <Col
                     id="sideMenu"
-                    style={{width: toggled}}
+                    style={{
+                        width: toggled,
+                        background: this.state.tema.menuArkaplanRenk,
+                        padding: 0,
+                        color: this.state.tema.menuYaziRenk
+                    }}
                     className="side-menu">
                     <Card style={{marginLeft: 0}}>
                         <SideMenu
@@ -41,7 +55,13 @@ export default class Workspace extends ShallowComponent {
                 <Col
                     id="content"
                     className="content"
-                    style={{height: window.innerHeight - 80, marginLeft: toggled}}
+                    style={{
+                        height: window.innerHeight - 55,
+                        marginLeft: toggled,
+                        width: contentWidth,
+                        overflowY: "auto",
+                        background: this.state.tema.sayfaArkaplanRenk
+                    }}
                     onClick={this.__closeMenu}>
                     {this.props.children}
                 </Col>

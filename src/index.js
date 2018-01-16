@@ -4,7 +4,7 @@ import Application from "robe-react-commons/lib/application/Application";
 import Locale from "robe-react-ui/lib/assets/en_US.json"; // eslint-disable-line import/no-unresolved
 import Switch from "./Switch";
 
-Application.setBaseUrlPath("http://localhost:8181/ebel");
+Application.setBaseUrlPath("http://localhost:7171/ebel");
 Application.loadI18n(Locale);
 
 
