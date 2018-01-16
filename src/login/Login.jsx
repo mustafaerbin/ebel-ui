@@ -92,13 +92,25 @@ class Login extends ShallowComponent {
         if (!password || !username) {
             return;
         }
-
         let data = {
             username: username,
             password: SHA256(password).toString()
         };
+        this.loginPost.call(data, undefined, this.__loginSuccess, this.__loginError);
+    }
 
+    __handleMisafir() {
+        cookie.remove("auth-token");
+        var username = "misafir";
+        var password = "123123";
 
+        if (!password || !username) {
+            return;
+        }
+        let data = {
+            username: username,
+            password: SHA256(password).toString()
+        };
         this.loginPost.call(data, undefined, this.__loginSuccess, this.__loginError);
     }
 
