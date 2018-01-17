@@ -77,6 +77,7 @@ export default class Ctv extends Component {
                                paginator={true} rows={10}
                                globalFilter={this.state.globalFilter}
                                selectionMode="single"
+                               emptyMessage="Kayıt Bulunamadı"
                     >
                         <Column field="yasAraligi" header="Yaş Aralığı"/>
                         <Column field="indirimOrani" header="İndirim Oranı"/>
@@ -87,17 +88,21 @@ export default class Ctv extends Component {
     }
 
     __ara() {
-        let ctvTarifesi = this.state.ctvTarifesi;
 
-        let request = new AjaxRequest({
-            url: "ctv/" + ctvTarifesi.yil,
-            type: "GET"
-        });
-
-        request.call(undefined, undefined,
-            (response) => {
-                this.setState({listeCtvTarifesi: response, showGrid: true});
+        if (this.state.ctvTarifesi.yil === undefined || this.state.ctvTarifesi.yil === null) {
+            Toast.info("Yıl Seçmelisiniz");
+        } else {
+            let ctvTarifesi = this.state.ctvTarifesi;
+            let request = new AjaxRequest({
+                url: "ctv/" + ctvTarifesi.yil,
+                type: "GET"
             });
+
+            request.call(undefined, undefined,
+                (response) => {
+                    this.setState({listeCtvTarifesi: response, showGrid: true});
+                });
+        }
     }
 
     __handleChangeDropDown(property, e) {

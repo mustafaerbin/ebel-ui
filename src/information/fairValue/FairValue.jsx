@@ -106,6 +106,7 @@ export default class FairValue extends Component {
                                paginator={true} rows={10}
                                globalFilter={this.state.globalFilter}
                                selectionMode="single"
+                               emptyMessage="Kayıt Bulunamadı"
                     >
                         <Column field="sokak.label" header="Bölge"/>
                         <Column field="deger" header="Rayiç Bedeli"/>
@@ -116,17 +117,22 @@ export default class FairValue extends Component {
     }
 
     __ara() {
-        let rayicDegeri = this.state.rayicDegeri;
 
-        let request = new AjaxRequest({
-            url: "fair-value/find-fair-value",
-            type: "POST"
-        });
+        if (this.state.rayicDegeri.yil === undefined || this.state.rayicDegeri.yil === null) {
+            Toast.info("Yıl Seçmelisiniz");
+        } else {
+            let rayicDegeri = this.state.rayicDegeri;
 
-        request.call(rayicDegeri, undefined,
-            (response) => {
-                this.setState({listeRayicDegerleri: response, showGrid: true});
+            let request = new AjaxRequest({
+                url: "fair-value/find-fair-value",
+                type: "POST"
             });
+
+            request.call(rayicDegeri, undefined,
+                (response) => {
+                    this.setState({listeRayicDegerleri: response, showGrid: true});
+                });
+        }
     }
 
     __handleChangeDropDown(property, e) {
