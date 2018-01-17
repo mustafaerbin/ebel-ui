@@ -68,10 +68,22 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "url-loader?limit=10000&mimetype=image/svg+xml"
             }
         ]
     },
     plugins: [
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 15 }),
+        new webpack.optimize.CommonsChunkPlugin({
+            async: true,
+            minChunks: 3,
+            children: true,
+        }),
+        new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 10000 }),
         new CopyWebpackPlugin([
             {
                 from: path.resolve(Utility.projectDir, 'assets'),
