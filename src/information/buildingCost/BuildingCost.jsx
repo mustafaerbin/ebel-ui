@@ -90,6 +90,7 @@ export default class BuildingCost extends Component {
                                paginator={true} rows={10}
                                globalFilter={this.state.globalFilter}
                                selectionMode="single"
+                               emptyMessage="Kayıt Bulunamadı"
                     >
                         <Column field="yapiTür.label" header="Yapı Türü"/>
                         <Column field="lüks" header="Lüks"/>
@@ -104,17 +105,23 @@ export default class BuildingCost extends Component {
     }
 
     __ara() {
-        let binaMaliyeti = this.state.binaMaliyeti;
 
-        let request = new AjaxRequest({
-            url: "building-cost/find-building-cost",
-            type: "POST"
-        });
+        if (this.state.binaMaliyeti.yil === undefined || this.state.binaMaliyeti.yil === null) {
+            Toast.info("Yıl Seçmelisiniz");
+        } else {
 
-        request.call(binaMaliyeti, undefined,
-            (response) => {
-                this.setState({listeBinaMaliyetleri: response, showGrid: true});
+            let binaMaliyeti = this.state.binaMaliyeti;
+
+            let request = new AjaxRequest({
+                url: "building-cost/find-building-cost",
+                type: "POST"
             });
+
+            request.call(binaMaliyeti, undefined,
+                (response) => {
+                    this.setState({listeBinaMaliyetleri: response, showGrid: true});
+                });
+        }
     }
 
     __handleChangeDropDown(property, e) {
