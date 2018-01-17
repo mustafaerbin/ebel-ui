@@ -76,6 +76,7 @@ export default class AbrasionDiscount extends Component {
                                paginator={true} rows={10}
                                globalFilter={this.state.globalFilter}
                                selectionMode="single"
+                               emptyMessage="Kayıt Bulunamadı"
                     >
                         <Column field="yasAraligi" header="Yaş Aralığı"/>
                         <Column field="indirimOrani" header="İndirim Oranı"/>
