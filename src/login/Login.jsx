@@ -70,6 +70,25 @@ class Login extends ShallowComponent {
                         </Col>
                         <br/>
                         <br/>
+                        <Col>
+                            <Button
+                                className="btn btn-primary btn-login btn-block"
+                                ref="submitBtn"
+                                onClick={this.__handleMisafir}>
+                                Misafir Girişi
+                            </Button>
+                        </Col>
+                        <br/>
+                        <br/>
+                        <Col>
+                            <Button
+                                className="btn btn-primary btn-login btn-block"
+                                ref="submitBtn">
+                                Kayıt Ol
+                            </Button>
+                        </Col>
+                        <br/>
+                        <br/>
                         <br/>
                     </Form>
                 </Card>
